@@ -16,6 +16,7 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <ErrorBoundary>
+        {/* BookstoreServiceProvider передает сервис через Contex API */}
         <BookstoreServiceProvider value={bookstoreService}>
           <Router>
             <App />

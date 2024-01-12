@@ -9,6 +9,8 @@ import BookstoreService from "./services/bookstore-service";
 import { BookstoreServiceProvider } from "./components/bookstore-service-context";
 import store from "./store";
 
+import "./index.scss";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const bookstoreService = new BookstoreService();
 

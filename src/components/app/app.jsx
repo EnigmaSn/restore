@@ -1,11 +1,13 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { HomePage, CartPage } from "../pages";
+import ShopHeader from "../shop-header";
 import "./app.scss";
 
 function App() {
   return (
     <>
+      <ShopHeader numItems={5} total={210} />
       <Routes>
         <Route path="/" exact element={<HomePage></HomePage>}></Route>
         <Route path="/cart" element={<CartPage></CartPage>}></Route>

@@ -1,10 +1,10 @@
-import React, { useLayoutEffect } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import BookListItem from "../book-list-item";
 import Spinner from "../spinner";
 import { connect } from "react-redux";
 
 import { withBookstoreService } from "../hoc";
-import { booksLoaded } from "../../actions";
+import { booksLoaded, booksRequested } from "../../actions";
 import { compose } from "../../utils";
 
 import "./book-list.scss";
@@ -14,11 +14,12 @@ const BookList = (props) => {
   const { books, loading } = props;
 
   useLayoutEffect(() => {
-    const { bookstoreService, booksLoaded } = props;
+    const { bookstoreService, booksLoaded, booksRequested } = props;
+    booksRequested();
     bookstoreService.getBooks().then((data) => {
       booksLoaded(data);
     });
-  }, [props]);
+  }, []);
 
   if (loading) {
     return <Spinner />;
@@ -43,6 +44,7 @@ const mapStateToProps = ({ books, loading }) => {
 
 const mapDispatchToProps = {
   booksLoaded,
+  booksRequested,
 };
 
 export default compose(

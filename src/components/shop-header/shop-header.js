@@ -1,16 +1,17 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import "./shop-header.scss";
 
 const ShopHeader = ({ numItems, total }) => {
   return (
     <header className="shop-header row">
-      <a className="logo text-dark" href="#">
+      <NavLink to="/" className="logo text-dark">
         ReStore
-      </a>
-      <a className="shopping-cart">
+      </NavLink>
+      <NavLink to="/cart" className="shopping-cart">
         <i className="cart-icon fa fa-shopping-cart" />
         {numItems} items (${total})
-      </a>
+      </NavLink>
     </header>
   );
 };

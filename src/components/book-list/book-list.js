@@ -1,5 +1,6 @@
 import React, { useLayoutEffect } from "react";
 import BookListItem from "../book-list-item";
+import Spinner from "../spinner";
 import { connect } from "react-redux";
 
 import { withBookstoreService } from "../hoc";
@@ -9,16 +10,19 @@ import { compose } from "../../utils";
 import "./book-list.scss";
 
 const BookList = (props) => {
-  const { books } = props;
+  console.log(props);
+  const { books, loading } = props;
 
   useLayoutEffect(() => {
     const { bookstoreService, booksLoaded } = props;
+    bookstoreService.getBooks().then((data) => {
+      booksLoaded(data);
+    });
+  }, [props]);
 
-    // 1. receive data
-    const data = bookstoreService.getBooks();
-    // 2. dispacth action to store
-    booksLoaded(data);
-  }, []);
+  if (loading) {
+    return <Spinner />;
+  }
 
   return (
     <ul className="book-list">
@@ -33,8 +37,8 @@ const BookList = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return { books: state.books };
+const mapStateToProps = ({ books, loading }) => {
+  return { books, loading };
 };
 
 const mapDispatchToProps = {

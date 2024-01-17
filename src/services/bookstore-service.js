@@ -21,13 +21,11 @@ export default class BookstoreService {
   getBooks() {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        // reject(new Error("Something bad happened"));
-        reject("Something bad happened");
-        // if (Math.random() > 0.75) {
-        //   reject("Something bad happened");
-        // } else {
-        //   resolve(this.books);
-        // }
+        if (Math.random() > 0.75) {
+          reject("Something bad happened");
+        } else {
+          resolve(this.books);
+        }
       }, 700);
     });
   }

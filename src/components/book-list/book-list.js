@@ -1,28 +1,37 @@
-import React, { useEffect, useLayoutEffect } from "react";
+import React, { useLayoutEffect } from "react";
 import BookListItem from "../book-list-item";
 import Spinner from "../spinner";
+import ErrorIndicator from "../error-indicator";
 import { connect } from "react-redux";
 
 import { withBookstoreService } from "../hoc";
-import { booksLoaded, booksRequested } from "../../actions";
+import { booksLoaded, booksRequested, booksError } from "../../actions";
 import { compose } from "../../utils";
 
 import "./book-list.scss";
 
 const BookList = (props) => {
-  console.log(props);
-  const { books, loading } = props;
-
   useLayoutEffect(() => {
-    const { bookstoreService, booksLoaded, booksRequested } = props;
+    const { bookstoreService, booksLoaded, booksRequested, booksError } = props;
     booksRequested();
-    bookstoreService.getBooks().then((data) => {
-      booksLoaded(data);
-    });
+    bookstoreService
+      .getBooks()
+      .then((data) => {
+        booksLoaded(data);
+      })
+      .catch((err) => {
+        booksError(err);
+      });
   }, []);
+
+  const { books, loading, error } = props;
 
   if (loading) {
     return <Spinner />;
+  }
+
+  if (error) {
+    return <ErrorIndicator />;
   }
 
   return (
@@ -38,13 +47,14 @@ const BookList = (props) => {
   );
 };
 
-const mapStateToProps = ({ books, loading }) => {
-  return { books, loading };
+const mapStateToProps = ({ books, loading, error }) => {
+  return { books, loading, error };
 };
 
 const mapDispatchToProps = {
   booksLoaded,
   booksRequested,
+  booksError,
 };
 
 export default compose(

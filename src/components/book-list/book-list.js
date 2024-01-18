@@ -12,16 +12,8 @@ import "./book-list.scss";
 
 const BookList = (props) => {
   useLayoutEffect(() => {
-    const { bookstoreService, booksLoaded, booksRequested, booksError } = props;
-    booksRequested();
-    bookstoreService
-      .getBooks()
-      .then((data) => {
-        booksLoaded(data);
-      })
-      .catch((err) => {
-        booksError(err);
-      });
+    const { fetchBooks } = props;
+    fetchBooks();
   }, []);
 
   const { books, loading, error } = props;
@@ -51,10 +43,22 @@ const mapStateToProps = ({ books, loading, error }) => {
   return { books, loading, error };
 };
 
-const mapDispatchToProps = {
-  booksLoaded,
-  booksRequested,
-  booksError,
+const mapDispatchToProps = (dispatch, ownProps) => {
+  const { bookstoreService } = ownProps;
+
+  return {
+    fetchBooks: () => {
+      dispatch(booksRequested());
+      bookstoreService
+        .getBooks()
+        .then((data) => {
+          dispatch(booksLoaded(data));
+        })
+        .catch((err) => {
+          dispatch(booksError(err));
+        });
+    },
+  };
 };
 
 export default compose(

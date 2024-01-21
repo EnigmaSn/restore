@@ -18,7 +18,8 @@ const booksError = (error) => {
   };
 };
 
-const fetchBooks = (bookstoreService, dispatch) => () => {
+// thunk func
+const fetchBooks = (bookstoreService) => () => (dispatch) => {
   dispatch(booksRequested());
   bookstoreService
     .getBooks()

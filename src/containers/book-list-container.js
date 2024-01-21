@@ -1,4 +1,5 @@
 import React, { useLayoutEffect } from "react";
+import { bindActionCreators } from "redux";
 import BookList from "../components/book-list";
 import Spinner from "../components/spinner";
 import ErrorIndicator from "../components/error-indicator";
@@ -30,13 +31,14 @@ const mapStateToProps = ({ bookList: { books, loading, error } }) => {
   return { books, loading, error };
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-  const { bookstoreService } = ownProps;
-
-  return {
-    fetchBooks: fetchBooks(bookstoreService, dispatch),
-    onAddedToCart: (id) => dispatch(bookAddedToCart(id)),
-  };
+const mapDispatchToProps = (dispatch, { bookstoreService }) => {
+  return bindActionCreators(
+    {
+      fetchBooks: fetchBooks(bookstoreService),
+      onAddedToCart: bookAddedToCart,
+    },
+    dispatch
+  );
 };
 
 export default compose(

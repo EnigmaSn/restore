@@ -4,7 +4,7 @@ import "./book-list.scss";
 
 const BookList = ({ books, onAddedToCart }) => {
   return (
-    <ul className="book-list">
+    <ul className="book-list flex gap-4 items-stretch">
       {books?.map((book) => {
         return (
           <li key={book.id}>

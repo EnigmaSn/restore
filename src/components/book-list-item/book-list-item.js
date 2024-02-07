@@ -15,7 +15,18 @@ const BookListItem = (props) => {
         </a>
         <div className="book-author">{author}</div>
         <div className="book-price">${price}</div>
-        <button onClick={onAddedToCart} className="btn btn-info add-to-cart">
+        <button
+          onClick={onAddedToCart}
+          className="
+          bg-cyan-600 hover:bg-cyan-700
+          focus:outline-none
+          focus:shadow-sm
+          focus:shadow-cyan-500
+          text-white
+          py-2 px-4
+          mb-2
+          rounded"
+        >
           Add to cart
         </button>
       </div>

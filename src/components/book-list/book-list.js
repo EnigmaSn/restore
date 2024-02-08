@@ -4,7 +4,7 @@ import "./book-list.scss";
 
 const BookList = ({ books, onAddedToCart }) => {
   return (
-    <ul className="book-list flex gap-4 items-stretch">
+    <ul className="book-list flex gap-4 items-stretch justify-evenly 2xl:justify-start flex-wrap">
       {books?.map((book) => {
         return (
           <li key={book.id}>

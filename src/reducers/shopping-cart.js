@@ -16,6 +16,7 @@ const updateCartItems = (cartItems, item, itemIdx) => {
 
 const updateCartItem = (book, item = {}, quantity) => {
   const { id = book.id, count = 0, title = book.title, total = 0 } = item;
+  updateOrderTotal();
 
   return {
     id,
@@ -23,6 +24,23 @@ const updateCartItem = (book, item = {}, quantity) => {
     count: count + quantity,
     total: total + quantity * book.price,
   };
+};
+
+const updateOrderTotal = (cartItems) => {
+  console.log("cartItems ", cartItems);
+  let sum = 0;
+  // TODO кейс при пустом массиве
+  if (cartItems && cartItems.length) {
+    sum = cartItems
+      .map((item) => {
+        return item.total;
+      })
+      .reduce((acc, item) => {
+        return acc + item;
+      });
+  }
+
+  return sum;
 };
 
 const updateOrder = (state, bookId, quantity) => {
@@ -35,9 +53,11 @@ const updateOrder = (state, bookId, quantity) => {
   const itemIdx = cartItems.findIndex((cartItem) => cartItem.id === bookId);
   const item = cartItems[itemIdx];
   const newItem = updateCartItem(book, item, quantity);
+  const updatedCartItems = updateCartItems(cartItems, newItem, itemIdx);
 
   return {
-    cartItems: updateCartItems(cartItems, newItem, itemIdx),
+    cartItems: updatedCartItems,
+    orderTotal: updateOrderTotal(updatedCartItems),
   };
 };
 
